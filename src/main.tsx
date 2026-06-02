@@ -1,9 +1,13 @@
-import type { ReactNode } from 'react'
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import { AppProviders } from '@/app/providers'
+import App from '@/app/App'
+import './index.css'
 
-type AppProvidersProps = {
-    children: ReactNode
-}
-
-export function AppProviders({ children }: AppProvidersProps) {
-    return children
-}
+createRoot(document.getElementById('root')!).render(
+    <StrictMode>
+        <AppProviders>
+            <App />
+        </AppProviders>
+    </StrictMode>,
+)
