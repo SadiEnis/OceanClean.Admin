@@ -1,18 +1,27 @@
 import { Outlet } from 'react-router-dom'
 
+import { Sidebar } from '@/components/layout/Sidebar'
+import { Topbar } from '@/components/layout/Topbar'
+
 export function AdminLayout() {
     return (
         <div className="min-h-screen bg-background text-foreground">
             <div className="flex min-h-screen">
-                <aside className="hidden w-64 border-r bg-card p-4 md:block">
-                    <div className="text-lg font-bold">OceanClean</div>
-                    <p className="mt-1 text-xs text-muted-foreground">
-                        Admin Panel
-                    </p>
-                </aside>
+                <Sidebar />
 
-                <main className="flex-1 p-6">
-                    <Outlet />
+                <main className="flex min-w-0 flex-1 flex-col">
+                    <div className="border-b bg-card px-4 py-3 md:hidden">
+                        <h1 className="text-base font-bold">OceanClean Admin</h1>
+                        <p className="text-xs text-muted-foreground">
+                            Mobile navigation will be added later.
+                        </p>
+                    </div>
+
+                    <Topbar />
+
+                    <div className="w-full flex-1 p-4 md:p-6">
+                        <Outlet />
+                    </div>
                 </main>
             </div>
         </div>
