@@ -8,6 +8,7 @@ type SidebarNavItemProps = {
     label: string
     icon: LucideIcon
     end?: boolean
+    onClick?: () => void
 }
 
 export function SidebarNavItem({
@@ -15,11 +16,13 @@ export function SidebarNavItem({
                                    label,
                                    icon: Icon,
                                    end = false,
+                                   onClick,
                                }: SidebarNavItemProps) {
     return (
         <NavLink
             to={to}
             end={end}
+            onClick={onClick}
             className={({ isActive }) =>
                 cn(
                     'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
