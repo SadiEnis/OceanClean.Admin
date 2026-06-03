@@ -11,6 +11,8 @@ import { MatchesPage } from '@/features/matches/pages/MatchesPage'
 import { PlayerDetailPage } from '@/features/players/pages/PlayerDetailPage'
 import { PlayersPage } from '@/features/players/pages/PlayersPage'
 import { appRoutes } from '@/lib/routes'
+import { ProtectedRoute } from '@/routes/protected-route'
+import { PublicRoute } from '@/routes/public-route'
 
 export const appRouter = createBrowserRouter([
     {
@@ -19,10 +21,18 @@ export const appRouter = createBrowserRouter([
     },
     {
         path: appRoutes.login,
-        element: <LoginPage />,
+        element: (
+            <PublicRoute>
+                <LoginPage />
+            </PublicRoute>
+        ),
     },
     {
-        element: <AdminLayout />,
+        element: (
+            <ProtectedRoute>
+                <AdminLayout />
+            </ProtectedRoute>
+        ),
         children: [
             {
                 path: appRoutes.dashboard,
