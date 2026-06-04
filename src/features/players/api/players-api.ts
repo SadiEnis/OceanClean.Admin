@@ -5,6 +5,8 @@ import type {
     AdminPlayersQueryParams,
     PlayerItemTimeseriesRange,
     PlayerItemTimeseriesResponse,
+    AdminUpdatePlayerStatusRequest,
+    AdminUpdatePlayerStatusResponse,
 } from '@/features/players/types'
 
 export async function getAdminPlayers(
@@ -48,6 +50,18 @@ export async function getAdminPlayerItemTimeseries(
                 range,
             },
         }
+    )
+
+    return response.data
+}
+
+export async function updateAdminPlayerStatus(
+    userId: string | number,
+    request: AdminUpdatePlayerStatusRequest
+): Promise<AdminUpdatePlayerStatusResponse> {
+    const response = await apiClient.patch<AdminUpdatePlayerStatusResponse>(
+        `/admin/players/${userId}/status`,
+        request
     )
 
     return response.data

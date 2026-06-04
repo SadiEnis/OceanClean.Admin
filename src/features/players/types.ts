@@ -158,3 +158,15 @@ export type PlayerItemTimeseriesResponse = {
 
     points: PlayerItemTimeseriesPoint[]
 }
+
+export type AdminUpdatePlayerStatusRequest = {
+    newStatus: PlayerStatus
+}
+
+export type AdminUpdatePlayerStatusResponse = {
+    success: boolean
+    message: string
+    userId: number
+    oldStatus: PlayerStatus
+    newStatus: PlayerStatus
+}

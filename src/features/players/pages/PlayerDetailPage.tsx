@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
     ArrowLeft,
     BadgeDollarSign,
@@ -15,6 +15,13 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select'
+import {
     Table,
     TableBody,
     TableCell,
@@ -26,19 +33,23 @@ import {
     useAdminPlayerDetailQuery,
     useAdminPlayerItemTimeseriesQuery,
 } from '@/features/players/api/players-queries'
+import { useUpdateAdminPlayerStatusMutation } from '@/features/players/api/players-mutations'
 import { PlayerDetailStatCard } from '@/features/players/components/PlayerDetailStatCard'
 import { PlayerItemTimeseriesChart } from '@/features/players/components/PlayerItemTimeseriesChart'
 import { PlayerItemTimeseriesRangeSelect } from '@/features/players/components/PlayerItemTimeseriesRangeSelect'
 import { PlayerStatusBadge } from '@/features/players/components/PlayerStatusBadge'
-import type { PlayerItemTimeseriesRange } from '@/features/players/types'
+import type {
+    PlayerItemTimeseriesRange,
+    PlayerStatus,
+} from '@/features/players/types'
 import { formatDateTime, formatDuration, formatNumber } from '@/lib/format'
 import { appRoutes } from '@/lib/routes'
-import { LoadingState } from '@/components/common/LoadingState'
 
 export function PlayerDetailPage() {
     const { userId } = useParams()
     const navigate = useNavigate()
 
+    const [selectedStatus, setSelectedStatus] = useState<PlayerStatus | ''>('')
     const [itemTimeseriesRange, setItemTimeseriesRange] =
         useState<PlayerItemTimeseriesRange>('weekly')
 
@@ -48,6 +59,18 @@ export function PlayerDetailPage() {
         itemTimeseriesRange
     )
 
+    const updateStatusMutation = useUpdateAdminPlayerStatusMutation({
+        userId,
+    })
+
+    const playerStatus = playerQuery.data?.player?.playerStatus
+
+    useEffect(() => {
+        if (playerStatus) {
+            setSelectedStatus(playerStatus)
+        }
+    }, [playerStatus])
+
     if (playerQuery.isLoading) {
         return (
             <div>
@@ -56,9 +79,9 @@ export function PlayerDetailPage() {
                     Back to Players
                 </Button>
 
-                <div className="mt-4">
-                    <LoadingState message="Loading player detail..." />
-                </div>
+                <p className="mt-4 text-sm text-muted-foreground">
+                    Loading player detail...
+                </p>
             </div>
         )
     }
@@ -127,6 +150,66 @@ export function PlayerDetailPage() {
                     </div>
                 </div>
             </div>
+
+            <Card>
+                <CardHeader>
+                    <CardTitle>Player Status Management</CardTitle>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                        Update whether this player can actively use the game account.
+                    </p>
+                </CardHeader>
+
+                <CardContent>
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                        <Select
+                            value={selectedStatus}
+                            onValueChange={(value) => setSelectedStatus(value as PlayerStatus)}
+                            disabled={updateStatusMutation.isPending}
+                        >
+                            <SelectTrigger className="w-full sm:w-48">
+                                <SelectValue placeholder="Select status" />
+                            </SelectTrigger>
+
+                            <SelectContent>
+                                <SelectItem value="active">Active</SelectItem>
+                                <SelectItem value="inactive">Inactive</SelectItem>
+                                <SelectItem value="banned">Banned</SelectItem>
+                            </SelectContent>
+                        </Select>
+
+                        <Button
+                            disabled={
+                                updateStatusMutation.isPending ||
+                                !selectedStatus ||
+                                selectedStatus === player.playerStatus
+                            }
+                            onClick={() => {
+                                if (!selectedStatus) {
+                                    return
+                                }
+
+                                updateStatusMutation.mutate({
+                                    newStatus: selectedStatus,
+                                })
+                            }}
+                        >
+                            {updateStatusMutation.isPending ? 'Saving...' : 'Save Status'}
+                        </Button>
+
+                        {updateStatusMutation.isSuccess && (
+                            <p className="text-sm text-muted-foreground">
+                                Status updated successfully.
+                            </p>
+                        )}
+
+                        {updateStatusMutation.isError && (
+                            <p className="text-sm text-destructive">
+                                Failed to update player status.
+                            </p>
+                        )}
+                    </div>
+                </CardContent>
+            </Card>
 
             <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
                 <PlayerDetailStatCard
@@ -328,7 +411,7 @@ export function PlayerDetailPage() {
                                     {player.recentMatches.map((match) => (
                                         <TableRow
                                             key={match.matchId}
-                                            className="cursor-pointer transition-colors hover:bg-muted/50"
+                                            className="cursor-pointer transition-colors hover:bg-muted"
                                             onClick={() => navigate(appRoutes.matchDetail(match.matchId))}
                                         >
                                             <TableCell>
