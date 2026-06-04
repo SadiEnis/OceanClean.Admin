@@ -11,6 +11,7 @@ import {
 } from 'lucide-react'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { LoadingState } from '@/components/common/LoadingState'
 import {
     useDashboardActivityQuery,
     useDashboardSummaryQuery,
@@ -36,11 +37,9 @@ export function DashboardPage() {
 
     if (summaryQuery.isLoading) {
         return (
-            <div>
+            <div className="space-y-4">
                 <h1 className="text-2xl font-bold">Dashboard</h1>
-                <p className="mt-2 text-muted-foreground">
-                    Loading dashboard summary...
-                </p>
+                <LoadingState message="Loading dashboard summary..." />
             </div>
         )
     }

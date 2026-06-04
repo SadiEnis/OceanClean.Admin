@@ -25,6 +25,7 @@ import { useAdminMatchDetailQuery } from '@/features/matches/api/matches-queries
 import { MatchSummaryCard } from '@/features/matches/components/MatchSummaryCard'
 import { formatDateTime, formatDuration, formatNumber } from '@/lib/format'
 import { appRoutes } from '@/lib/routes'
+import { LoadingState } from '@/components/common/LoadingState'
 
 function formatPosition(posX: number | null, posY: number | null) {
     if (posX === null || posY === null) {
@@ -55,9 +56,9 @@ export function MatchDetailPage() {
                     Back to Matches
                 </Button>
 
-                <p className="mt-4 text-sm text-muted-foreground">
-                    Loading match detail...
-                </p>
+                <div className="mt-4">
+                    <LoadingState message="Loading match detail..." />
+                </div>
             </div>
         )
     }

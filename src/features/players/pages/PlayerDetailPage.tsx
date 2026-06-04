@@ -33,6 +33,7 @@ import { PlayerStatusBadge } from '@/features/players/components/PlayerStatusBad
 import type { PlayerItemTimeseriesRange } from '@/features/players/types'
 import { formatDateTime, formatDuration, formatNumber } from '@/lib/format'
 import { appRoutes } from '@/lib/routes'
+import { LoadingState } from '@/components/common/LoadingState'
 
 export function PlayerDetailPage() {
     const { userId } = useParams()
@@ -55,9 +56,9 @@ export function PlayerDetailPage() {
                     Back to Players
                 </Button>
 
-                <p className="mt-4 text-sm text-muted-foreground">
-                    Loading player detail...
-                </p>
+                <div className="mt-4">
+                    <LoadingState message="Loading player detail..." />
+                </div>
             </div>
         )
     }

@@ -13,6 +13,7 @@ import {
     useEconomyItemSummaryQuery,
     useEconomyItemTimeseriesQuery,
 } from '@/features/economy/api/economy-queries'
+import { LoadingState } from '@/components/common/LoadingState'
 import { EconomyCurrencyFlowChart } from '@/features/economy/components/EconomyCurrencyFlowChart'
 import { EconomyItemTimeseriesChart } from '@/features/economy/components/EconomyItemTimeseriesChart'
 import { EconomyRangeSelect } from '@/features/economy/components/EconomyRangeSelect'
@@ -42,9 +43,7 @@ export function EconomyPage() {
             </div>
 
             {itemSummaryQuery.isLoading && (
-                <div className="rounded-xl border bg-card p-6 text-sm text-muted-foreground">
-                    Loading economy summary...
-                </div>
+                <LoadingState message="Loading economy summary..." />
             )}
 
             {itemSummaryQuery.isError && (

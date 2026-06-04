@@ -25,6 +25,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table'
+import { LoadingState } from '@/components/common/LoadingState'
 import { useAdminMatchesQuery } from '@/features/matches/api/matches-queries'
 import { MatchSummaryCard } from '@/features/matches/components/MatchSummaryCard'
 import type { AdminMatchesQueryParams } from '@/features/matches/types'
@@ -214,8 +215,8 @@ export function MatchesPage() {
 
             <div className="rounded-xl border bg-card text-card-foreground shadow-sm">
                 {matchesQuery.isLoading && (
-                    <div className="p-6 text-sm text-muted-foreground">
-                        Loading matches...
+                    <div className="p-4">
+                        <LoadingState message="Loading matches..." className="min-h-40" />
                     </div>
                 )}
 

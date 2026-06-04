@@ -2,6 +2,7 @@ import { Search } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import { LoadingState } from '@/components/common/LoadingState'
 import { PlayerStatusBadge } from '@/features/players/components/PlayerStatusBadge'
 import { useAdminPlayersQuery } from '@/features/players/api/players-queries'
 import type {
@@ -179,8 +180,8 @@ export function PlayersPage() {
 
             <div className="rounded-xl border bg-card text-card-foreground shadow-sm">
                 {playersQuery.isLoading && (
-                    <div className="p-6 text-sm text-muted-foreground">
-                        Loading players...
+                    <div className="p-4">
+                        <LoadingState message="Loading players..." className="min-h-40" />
                     </div>
                 )}
 

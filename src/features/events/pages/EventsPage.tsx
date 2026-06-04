@@ -41,6 +41,7 @@ import type {
     AdminEventsQueryParams,
     EventsAnalyticsRange,
 } from '@/features/events/types'
+import { LoadingState } from '@/components/common/LoadingState'
 import {formatDateTime, formatNumber} from '@/lib/format'
 import {appRoutes} from '@/lib/routes'
 
@@ -200,9 +201,7 @@ export function EventsPage() {
             </div>
 
             {eventsAnalyticsQuery.isLoading && (
-                <div className="rounded-xl border bg-card p-6 text-sm text-muted-foreground">
-                    Loading event analytics...
-                </div>
+                <LoadingState message="Loading event analytics..." />
             )}
 
             {eventsAnalyticsQuery.isError && (
@@ -362,8 +361,8 @@ export function EventsPage() {
 
             <div className="rounded-xl border bg-card text-card-foreground shadow-sm">
                 {eventsQuery.isLoading && (
-                    <div className="p-6 text-sm text-muted-foreground">
-                        Loading events...
+                    <div className="p-4">
+                        <LoadingState message="Loading events..." className="min-h-40" />
                     </div>
                 )}
 
