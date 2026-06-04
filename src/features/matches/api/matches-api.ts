@@ -1,5 +1,6 @@
 import { apiClient } from '@/lib/api-client'
 import type {
+    AdminMatchDetailResponse,
     AdminMatchesListResponse,
     AdminMatchesQueryParams,
 } from '@/features/matches/types'
@@ -20,6 +21,16 @@ export async function getAdminMatches(
                 SortDirection: params.sortDirection ?? 'desc',
             },
         }
+    )
+
+    return response.data
+}
+
+export async function getAdminMatchDetail(
+    matchId: string | number
+): Promise<AdminMatchDetailResponse> {
+    const response = await apiClient.get<AdminMatchDetailResponse>(
+        `/admin/matches/${matchId}`
     )
 
     return response.data

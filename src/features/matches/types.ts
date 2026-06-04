@@ -41,3 +41,92 @@ export type AdminMatchesQueryParams = {
     sortBy?: string
     sortDirection?: 'asc' | 'desc'
 }
+
+export type AdminMatchDetailPlayer = {
+    userId: number
+    username: string
+    displayName: string
+
+    finalScore: number
+    trashRecycledCount: number
+    revivesDone: number
+    timesFainted: number
+    earnedCurrency: number
+}
+
+export type AdminMatchUsedItem = {
+    logId: number
+
+    userId: number
+    username: string
+    displayName: string
+
+    shopItemId: number | null
+    itemCode: string | null
+    itemName: string | null
+    itemType: string | null
+
+    quantity: number | null
+
+    createdAt: string
+}
+
+export type AdminMatchRescueEvent = {
+    logId: number
+
+    userId: number
+    username: string
+    displayName: string
+
+    scoreReward: number | null
+
+    posX: number | null
+    posY: number | null
+
+    createdAt: string
+}
+
+export type AdminMatchFaintReviveEvent = {
+    logId: number
+    actionType: string
+
+    userId: number
+    username: string
+    displayName: string
+
+    targetUserId: number | null
+    targetUsername: string | null
+    targetDisplayName: string | null
+
+    value: number | null
+
+    posX: number | null
+    posY: number | null
+
+    createdAt: string
+}
+
+export type AdminMatchDetail = {
+    matchId: number
+    lobbyId: number | null
+    matchCode: string
+
+    startedAt: string
+    endedAt: string
+    durationSeconds: number
+
+    totalTrashSpawned: number
+    totalTrashRecycled: number
+    createdAt: string
+
+    players: AdminMatchDetailPlayer[]
+    usedItems: AdminMatchUsedItem[]
+    rescueEvents: AdminMatchRescueEvent[]
+    faintReviveEvents: AdminMatchFaintReviveEvent[]
+}
+
+export type AdminMatchDetailResponse = {
+    success: boolean
+    message: string
+    match: AdminMatchDetail | null
+}
