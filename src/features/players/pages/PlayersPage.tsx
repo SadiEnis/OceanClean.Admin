@@ -4,7 +4,10 @@ import { useNavigate } from 'react-router-dom'
 
 import { PlayerStatusBadge } from '@/features/players/components/PlayerStatusBadge'
 import { useAdminPlayersQuery } from '@/features/players/api/players-queries'
-import type { PlayerStatus } from '@/features/players/types'
+import type {
+    AdminPlayersQueryParams,
+    PlayerStatus,
+} from '@/features/players/types'
 import { appRoutes } from '@/lib/routes'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -53,7 +56,7 @@ export function PlayersPage() {
     const [sortBy, setSortBy] = useState('createdAt')
     const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc')
 
-    const queryParams = useMemo(
+    const queryParams = useMemo<AdminPlayersQueryParams>(
         () => ({
             page,
             pageSize: PAGE_SIZE,
