@@ -327,7 +327,7 @@ export function PlayerDetailPage() {
                                     {player.recentMatches.map((match) => (
                                         <TableRow
                                             key={match.matchId}
-                                            className="cursor-pointer"
+                                            className="cursor-pointer transition-colors hover:bg-muted/50"
                                             onClick={() => navigate(appRoutes.matchDetail(match.matchId))}
                                         >
                                             <TableCell>

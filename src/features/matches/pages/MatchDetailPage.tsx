@@ -242,7 +242,7 @@ export function MatchDetailPage() {
                                 {match.players.map((player) => (
                                     <TableRow
                                         key={player.userId}
-                                        className="cursor-pointer"
+                                        className="cursor-pointer transition-colors hover:bg-muted/50"
                                         onClick={() => navigate(appRoutes.playerDetail(player.userId))}
                                     >
                                         <TableCell>

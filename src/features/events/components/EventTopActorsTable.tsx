@@ -44,7 +44,7 @@ export function EventTopActorsTable({ actors }: EventTopActorsTableProps) {
                     {actors.map((actor) => (
                         <TableRow
                             key={actor.userId}
-                            className="cursor-pointer"
+                            className="cursor-pointer transition-colors hover:bg-muted/50"
                             onClick={() => navigate(appRoutes.playerDetail(actor.userId))}
                         >
                             <TableCell>

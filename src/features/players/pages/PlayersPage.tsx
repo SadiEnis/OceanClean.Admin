@@ -221,10 +221,8 @@ export function PlayersPage() {
                                     {playersQuery.data.players.map((player) => (
                                         <TableRow
                                             key={player.userId}
-                                            className="cursor-pointer"
-                                            onClick={() =>
-                                                navigate(appRoutes.playerDetail(player.userId))
-                                            }
+                                            className="cursor-pointer transition-colors hover:bg-muted"
+                                            onClick={() => navigate(appRoutes.playerDetail(player.userId))}
                                         >
                                             <TableCell>
                                                 <div className="font-medium">{player.displayName}</div>

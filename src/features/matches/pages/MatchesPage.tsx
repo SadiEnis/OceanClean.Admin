@@ -257,10 +257,8 @@ export function MatchesPage() {
                                     {matches.map((match) => (
                                         <TableRow
                                             key={match.matchId}
-                                            className="cursor-pointer"
-                                            onClick={() =>
-                                                navigate(appRoutes.matchDetail(match.matchId))
-                                            }
+                                            className="cursor-pointer transition-colors hover:bg-muted"
+                                            onClick={() => navigate(appRoutes.matchDetail(match.matchId))}
                                         >
                                             <TableCell>
                                                 <div className="font-medium">{match.matchCode}</div>

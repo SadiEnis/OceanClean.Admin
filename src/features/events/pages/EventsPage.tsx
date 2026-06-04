@@ -5,12 +5,12 @@ import {
     Crosshair,
     Search,
 } from 'lucide-react'
-import { useMemo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import {useMemo, useState} from 'react'
+import {useNavigate} from 'react-router-dom'
 
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
+import {Button} from '@/components/ui/button'
+import {Card, CardContent, CardHeader, CardTitle} from '@/components/ui/card'
+import {Input} from '@/components/ui/input'
 import {
     Select,
     SelectContent,
@@ -30,19 +30,19 @@ import {
     useAdminEventsAnalyticsQuery,
     useAdminEventsQuery,
 } from '@/features/events/api/events-queries'
-import { EventActionBadge } from '@/features/events/components/EventActionBadge'
-import { EventSummaryCard } from '@/features/events/components/EventSummaryCard'
-import { EventTimelineChart } from '@/features/events/components/EventTimelineChart'
-import { EventTopActorsTable } from '@/features/events/components/EventTopActorsTable'
-import { EventTypeDistributionChart } from '@/features/events/components/EventTypeDistributionChart'
-import { EventsRangeSelect } from '@/features/events/components/EventsRangeSelect'
+import {EventActionBadge} from '@/features/events/components/EventActionBadge'
+import {EventSummaryCard} from '@/features/events/components/EventSummaryCard'
+import {EventTimelineChart} from '@/features/events/components/EventTimelineChart'
+import {EventTopActorsTable} from '@/features/events/components/EventTopActorsTable'
+import {EventTypeDistributionChart} from '@/features/events/components/EventTypeDistributionChart'
+import {EventsRangeSelect} from '@/features/events/components/EventsRangeSelect'
 import type {
     AdminEventActionType,
     AdminEventsQueryParams,
     EventsAnalyticsRange,
 } from '@/features/events/types'
-import { formatDateTime, formatNumber } from '@/lib/format'
-import { appRoutes } from '@/lib/routes'
+import {formatDateTime, formatNumber} from '@/lib/format'
+import {appRoutes} from '@/lib/routes'
 
 const PAGE_SIZE = 10
 
@@ -265,7 +265,7 @@ export function EventsPage() {
             <div className="rounded-xl border bg-card p-4 text-card-foreground shadow-sm">
                 <div className="grid gap-3 xl:grid-cols-[1fr_190px_160px_160px_180px_160px_auto]">
                     <div className="relative">
-                        <Search className="pointer-events-none absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                        <Search className="pointer-events-none absolute left-3 top-2.5 h-4 w-4 text-muted-foreground"/>
                         <Input
                             value={searchInput}
                             onChange={(event) => setSearchInput(event.target.value)}
@@ -287,7 +287,7 @@ export function EventsPage() {
                         }}
                     >
                         <SelectTrigger>
-                            <SelectValue placeholder="Action type" />
+                            <SelectValue placeholder="Action type"/>
                         </SelectTrigger>
 
                         <SelectContent>
@@ -322,7 +322,7 @@ export function EventsPage() {
                         }}
                     >
                         <SelectTrigger>
-                            <SelectValue placeholder="Sort by" />
+                            <SelectValue placeholder="Sort by"/>
                         </SelectTrigger>
 
                         <SelectContent>
@@ -342,7 +342,7 @@ export function EventsPage() {
                         }}
                     >
                         <SelectTrigger>
-                            <SelectValue placeholder="Direction" />
+                            <SelectValue placeholder="Direction"/>
                         </SelectTrigger>
 
                         <SelectContent>
@@ -404,28 +404,28 @@ export function EventsPage() {
                                     {events.map((event) => (
                                         <TableRow key={event.logId}>
                                             <TableCell>
-                                                <EventActionBadge actionType={event.actionType} />
+                                                <EventActionBadge actionType={event.actionType}/>
                                             </TableCell>
 
                                             <TableCell
-                                                className="cursor-pointer"
-                                                onClick={() =>
-                                                    navigate(appRoutes.playerDetail(event.userId))
-                                                }
+                                                className="cursor-pointer transition-colors hover:bg-muted/50"
+                                                onClick={() => navigate(appRoutes.playerDetail(event.userId))}
                                             >
-                                                <div className="font-medium">{event.displayName}</div>
+                                                <div className="font-medium text-primary hover:underline">
+                                                    {event.displayName}
+                                                </div>
                                                 <div className="text-xs text-muted-foreground">
                                                     @{event.username}
                                                 </div>
                                             </TableCell>
 
                                             <TableCell
-                                                className="cursor-pointer"
-                                                onClick={() =>
-                                                    navigate(appRoutes.matchDetail(event.matchId))
-                                                }
+                                                className="cursor-pointer transition-colors hover:bg-muted/50"
+                                                onClick={() => navigate(appRoutes.matchDetail(event.matchId))}
                                             >
-                                                <div className="font-medium">{event.matchCode}</div>
+                                                <div className="font-medium text-primary hover:underline">
+                                                    {event.matchCode}
+                                                </div>
                                                 <div className="text-xs text-muted-foreground">
                                                     Match ID: {event.matchId}
                                                 </div>
@@ -450,7 +450,8 @@ export function EventsPage() {
                             </Table>
                         </div>
 
-                        <div className="flex flex-col gap-3 border-t p-4 sm:flex-row sm:items-center sm:justify-between">
+                        <div
+                            className="flex flex-col gap-3 border-t p-4 sm:flex-row sm:items-center sm:justify-between">
                             <p className="text-sm text-muted-foreground">
                                 Showing page {page} of {totalPages}. Total events:{' '}
                                 {formatNumber(totalCount)}
