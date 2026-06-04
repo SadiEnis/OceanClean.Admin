@@ -9,6 +9,7 @@ import {
 } from 'recharts'
 
 import type { DashboardActivityPoint } from '@/features/dashboard/types'
+import { ChartLegend } from '@/components/charts/ChartLegend'
 import { chartSeries } from '@/lib/chart-config'
 
 type DashboardCurrencyFlowChartProps = {
@@ -28,6 +29,12 @@ export function DashboardCurrencyFlowChart({
 
     return (
         <div className="h-64 w-full">
+            <ChartLegend
+                items={[
+                    chartSeries.dashboard.currencyEarned,
+                    chartSeries.dashboard.currencySpent,
+                ]}
+            />
             <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={points}>
                     <CartesianGrid strokeDasharray="3 3" />

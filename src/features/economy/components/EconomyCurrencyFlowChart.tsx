@@ -9,6 +9,7 @@ import {
 } from 'recharts'
 
 import type { EconomyCurrencyFlowPoint } from '@/features/economy/types'
+import { ChartLegend } from '@/components/charts/ChartLegend'
 import { chartSeries } from '@/lib/chart-config'
 
 type EconomyCurrencyFlowChartProps = {
@@ -28,6 +29,13 @@ export function EconomyCurrencyFlowChart({
 
     return (
         <div className="h-72 w-full">
+            <ChartLegend
+                items={[
+                    chartSeries.economy.currencyEarned,
+                    chartSeries.economy.currencySpent,
+                    chartSeries.economy.netCurrency,
+                ]}
+            />
             <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={points}>
                     <CartesianGrid strokeDasharray="3 3" />

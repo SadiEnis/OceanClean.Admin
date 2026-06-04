@@ -9,6 +9,7 @@ import {
 } from 'recharts'
 
 import type { EventTimelinePoint } from '@/features/events/types'
+import { ChartLegend } from '@/components/charts/ChartLegend'
 import { chartSeries } from '@/lib/chart-config'
 
 type EventTimelineChartProps = {
@@ -26,6 +27,17 @@ export function EventTimelineChart({ points }: EventTimelineChartProps) {
 
     return (
         <div className="h-72 w-full">
+            <ChartLegend
+                items={[
+                    chartSeries.events.pickupTrash,
+                    chartSeries.events.recycleTrash,
+                    chartSeries.events.revivePlayer,
+                    chartSeries.events.playerFainted,
+                    chartSeries.events.useItem,
+                    chartSeries.events.rescueStarted,
+                    chartSeries.events.rescueCompleted,
+                ]}
+            />
             <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={points}>
                     <CartesianGrid strokeDasharray="3 3" />

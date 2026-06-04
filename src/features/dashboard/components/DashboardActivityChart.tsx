@@ -9,6 +9,7 @@ import {
 } from 'recharts'
 
 import type { DashboardActivityPoint } from '@/features/dashboard/types'
+import { ChartLegend } from '@/components/charts/ChartLegend'
 import { chartSeries } from '@/lib/chart-config'
 
 type DashboardActivityChartProps = {
@@ -26,6 +27,17 @@ export function DashboardActivityChart({ points }: DashboardActivityChartProps) 
 
     return (
         <div className="h-80 w-full">
+            <ChartLegend
+                items={[
+                    chartSeries.dashboard.currencyEarned,
+                    chartSeries.dashboard.currencySpent,
+                    chartSeries.dashboard.gameplayEvents,
+                    chartSeries.dashboard.itemPurchases,
+                    chartSeries.dashboard.matchesPlayed,
+                    chartSeries.dashboard.newPlayers,
+                    chartSeries.dashboard.playerLogins,
+                ]}
+            />
             <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={points}>
                     <CartesianGrid strokeDasharray="3 3" />
