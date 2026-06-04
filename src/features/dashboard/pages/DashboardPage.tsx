@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import {
     Activity,
     Ban,
@@ -9,15 +10,26 @@ import {
     Users,
 } from 'lucide-react'
 
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+    useDashboardActivityQuery,
+    useDashboardSummaryQuery,
+} from '@/features/dashboard/api/dashboard-queries'
+import { DashboardActivityChart } from '@/features/dashboard/components/DashboardActivityChart'
+import { DashboardRangeSelect } from '@/features/dashboard/components/DashboardRangeSelect'
 import { DashboardSummaryCard } from '@/features/dashboard/components/DashboardSummaryCard'
-import { useDashboardSummaryQuery } from '@/features/dashboard/api/dashboard-queries'
+import type { DashboardActivityRange } from '@/features/dashboard/types'
 
 function formatNumber(value: number) {
     return new Intl.NumberFormat('tr-TR').format(value)
 }
 
 export function DashboardPage() {
+    const [activityRange, setActivityRange] =
+        useState<DashboardActivityRange>('weekly')
+
     const summaryQuery = useDashboardSummaryQuery()
+    const activityQuery = useDashboardActivityQuery(activityRange)
 
     if (summaryQuery.isLoading) {
         return (
@@ -118,10 +130,47 @@ export function DashboardPage() {
                 <DashboardSummaryCard
                     title="Item Purchases"
                     value={formatNumber(summary.totalItemPurchases)}
-                    description={`${formatNumber(summary.totalPurchasedQuantity)} items purchased`}
+                    description={`${formatNumber(
+                        summary.totalPurchasedQuantity
+                    )} items purchased`}
                     icon={ShoppingCart}
                 />
             </div>
+
+            <Card>
+                <CardHeader className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                        <CardTitle>Activity Overview</CardTitle>
+                        <p className="mt-1 text-sm text-muted-foreground">
+                            Tracks players, matches, item purchases, currency and gameplay
+                            events.
+                        </p>
+                    </div>
+
+                    <DashboardRangeSelect
+                        value={activityRange}
+                        onChange={setActivityRange}
+                    />
+                </CardHeader>
+
+                <CardContent>
+                    {activityQuery.isLoading && (
+                        <div className="flex h-80 items-center justify-center text-sm text-muted-foreground">
+                            Loading activity data...
+                        </div>
+                    )}
+
+                    {activityQuery.isError && (
+                        <div className="flex h-80 items-center justify-center rounded-lg border border-destructive/40 bg-destructive/10 text-sm text-destructive">
+                            Failed to load activity data.
+                        </div>
+                    )}
+
+                    {activityQuery.isSuccess && (
+                        <DashboardActivityChart points={activityQuery.data.points} />
+                    )}
+                </CardContent>
+            </Card>
         </div>
     )
 }
