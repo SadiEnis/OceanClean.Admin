@@ -9,6 +9,7 @@ import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import {
     Select,
@@ -25,12 +26,20 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table'
-import { useAdminEventsQuery } from '@/features/events/api/events-queries'
+import {
+    useAdminEventsAnalyticsQuery,
+    useAdminEventsQuery,
+} from '@/features/events/api/events-queries'
 import { EventActionBadge } from '@/features/events/components/EventActionBadge'
 import { EventSummaryCard } from '@/features/events/components/EventSummaryCard'
+import { EventTimelineChart } from '@/features/events/components/EventTimelineChart'
+import { EventTopActorsTable } from '@/features/events/components/EventTopActorsTable'
+import { EventTypeDistributionChart } from '@/features/events/components/EventTypeDistributionChart'
+import { EventsRangeSelect } from '@/features/events/components/EventsRangeSelect'
 import type {
     AdminEventActionType,
     AdminEventsQueryParams,
+    EventsAnalyticsRange,
 } from '@/features/events/types'
 import { formatDateTime, formatNumber } from '@/lib/format'
 import { appRoutes } from '@/lib/routes'
@@ -76,15 +85,22 @@ export function EventsPage() {
     const navigate = useNavigate()
 
     const [page, setPage] = useState(1)
+
     const [searchInput, setSearchInput] = useState('')
     const [search, setSearch] = useState('')
+
     const [actionType, setActionType] = useState<ActionTypeFilter>('all')
+
     const [fromInput, setFromInput] = useState('')
     const [toInput, setToInput] = useState('')
     const [from, setFrom] = useState('')
     const [to, setTo] = useState('')
+
     const [sortBy, setSortBy] = useState('createdAt')
     const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc')
+
+    const [analyticsRange, setAnalyticsRange] =
+        useState<EventsAnalyticsRange>('weekly')
 
     const queryParams = useMemo<AdminEventsQueryParams>(
         () => ({
@@ -101,6 +117,7 @@ export function EventsPage() {
     )
 
     const eventsQuery = useAdminEventsQuery(queryParams)
+    const eventsAnalyticsQuery = useAdminEventsAnalyticsQuery(analyticsRange)
 
     const events = eventsQuery.data?.events ?? []
     const totalCount = eventsQuery.data?.totalCount ?? 0
@@ -167,6 +184,83 @@ export function EventsPage() {
                     icon={CalendarClock}
                 />
             </div>
+
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                    <h2 className="text-lg font-semibold">Event Analytics</h2>
+                    <p className="text-sm text-muted-foreground">
+                        Analyze event distribution, event timeline and top active players.
+                    </p>
+                </div>
+
+                <EventsRangeSelect
+                    value={analyticsRange}
+                    onChange={setAnalyticsRange}
+                />
+            </div>
+
+            {eventsAnalyticsQuery.isLoading && (
+                <div className="rounded-xl border bg-card p-6 text-sm text-muted-foreground">
+                    Loading event analytics...
+                </div>
+            )}
+
+            {eventsAnalyticsQuery.isError && (
+                <div className="rounded-xl border border-destructive/40 bg-destructive/10 p-6 text-sm text-destructive">
+                    Failed to load event analytics.
+                </div>
+            )}
+
+            {eventsAnalyticsQuery.isSuccess && (
+                <>
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Event Timeline</CardTitle>
+                            <p className="mt-1 text-sm text-muted-foreground">
+                                Event activity grouped by action type over time.
+                            </p>
+                        </CardHeader>
+
+                        <CardContent>
+                            <EventTimelineChart
+                                points={eventsAnalyticsQuery.data.timeline}
+                            />
+                        </CardContent>
+                    </Card>
+
+                    <div className="grid gap-6 xl:grid-cols-2">
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Event Type Distribution</CardTitle>
+                                <p className="mt-1 text-sm text-muted-foreground">
+                                    Total event count by action type.
+                                </p>
+                            </CardHeader>
+
+                            <CardContent>
+                                <EventTypeDistributionChart
+                                    data={eventsAnalyticsQuery.data.actionTypeCounts}
+                                />
+                            </CardContent>
+                        </Card>
+
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Top Actors</CardTitle>
+                                <p className="mt-1 text-sm text-muted-foreground">
+                                    Players with the highest number of logged actions.
+                                </p>
+                            </CardHeader>
+
+                            <CardContent>
+                                <EventTopActorsTable
+                                    actors={eventsAnalyticsQuery.data.topActors}
+                                />
+                            </CardContent>
+                        </Card>
+                    </div>
+                </>
+            )}
 
             <div className="rounded-xl border bg-card p-4 text-card-foreground shadow-sm">
                 <div className="grid gap-3 xl:grid-cols-[1fr_190px_160px_160px_180px_160px_auto]">

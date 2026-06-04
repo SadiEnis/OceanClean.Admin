@@ -61,3 +61,52 @@ export type AdminEventsQueryParams = {
     sortBy?: string
     sortDirection?: 'asc' | 'desc'
 }
+
+export type EventsAnalyticsRange =
+    | 'daily'
+    | 'weekly'
+    | 'monthly'
+    | 'sixMonths'
+    | 'all'
+    | 'custom'
+
+export type EventActionTypeCount = {
+    actionType: AdminEventActionType
+    eventCount: number
+}
+
+export type EventTimelinePoint = {
+    bucket: string
+
+    pickupTrash: number
+    recycleTrash: number
+    revivePlayer: number
+    playerFainted: number
+    useItem: number
+    rescueStarted: number
+    rescueCompleted: number
+
+    totalEvents: number
+}
+
+export type EventTopActor = {
+    userId: number
+    username: string
+    displayName: string
+    eventCount: number
+}
+
+export type EventsAnalyticsResponse = {
+    success: boolean
+    message: string
+
+    range: string
+    bucketType: string
+
+    from: string | null
+    to: string | null
+
+    actionTypeCounts: EventActionTypeCount[]
+    timeline: EventTimelinePoint[]
+    topActors: EventTopActor[]
+}
