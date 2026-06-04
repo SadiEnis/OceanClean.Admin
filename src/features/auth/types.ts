@@ -37,4 +37,58 @@ export type AdminLogoutResponse = {
     message: string
 }
 
-export type AdminMeResponse = AdminUser
+export type AdminMeResponse = {
+    adminUserId: number
+    username: string
+    role: string
+    adminStatus: string
+    lastLogin: string | null
+    createdAt: string
+    updatedAt: string | null
+}
+
+export type AdminAuditLogListItem = {
+    auditLogId: number
+
+    adminUserId: number
+    adminUsername: string
+    adminRole: string
+
+    actionType: string
+    targetType: string
+    targetId: number | null
+
+    oldValue: string | null
+    newValue: string | null
+
+    ipAddress: string | null
+    userAgent: string | null
+
+    createdAt: string
+}
+
+export type AdminAuditLogsListResponse = {
+    success: boolean
+    message: string
+
+    page: number
+    pageSize: number
+    totalCount: number
+
+    auditLogs: AdminAuditLogListItem[]
+}
+
+export type AdminAuditLogsQueryParams = {
+    page: number
+    pageSize: number
+
+    search?: string
+    actionType?: string
+    targetType?: string
+
+    from?: string
+    to?: string
+
+    sortBy?: string
+    sortDirection?: 'asc' | 'desc'
+}

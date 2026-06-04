@@ -5,16 +5,14 @@ import { Topbar } from '@/components/layout/Topbar'
 
 export function AdminLayout() {
     return (
-        <div className="min-h-screen bg-background text-foreground">
-            <div className="flex min-h-screen">
-                <Sidebar />
+        <div className="min-h-screen bg-background">
+            <Sidebar />
 
-                <main className="flex min-w-0 flex-1 flex-col">
-                    <Topbar />
+            <div className="min-h-screen md:pl-64">
+                <Topbar />
 
-                    <div className="w-full flex-1 p-4 md:p-6">
-                        <Outlet />
-                    </div>
+                <main className="w-full p-4 sm:p-6">
+                    <Outlet />
                 </main>
             </div>
         </div>
