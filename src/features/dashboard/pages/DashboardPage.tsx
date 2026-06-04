@@ -16,9 +16,12 @@ import {
     useDashboardSummaryQuery,
 } from '@/features/dashboard/api/dashboard-queries'
 import { DashboardActivityChart } from '@/features/dashboard/components/DashboardActivityChart'
+import { DashboardCurrencyFlowChart } from '@/features/dashboard/components/DashboardCurrencyFlowChart'
+import { DashboardMetricChart } from '@/features/dashboard/components/DashboardMetricChart'
 import { DashboardRangeSelect } from '@/features/dashboard/components/DashboardRangeSelect'
 import { DashboardSummaryCard } from '@/features/dashboard/components/DashboardSummaryCard'
 import type { DashboardActivityRange } from '@/features/dashboard/types'
+import { chartSeries } from '@/lib/chart-config'
 
 function formatNumber(value: number) {
     return new Intl.NumberFormat('tr-TR').format(value)
@@ -171,6 +174,79 @@ export function DashboardPage() {
                     )}
                 </CardContent>
             </Card>
+
+            {activityQuery.isSuccess && (
+                <div className="grid gap-6 xl:grid-cols-2">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Total Players Trend</CardTitle>
+                            <p className="mt-1 text-sm text-muted-foreground">
+                                Cumulative total player count over the selected range.
+                            </p>
+                        </CardHeader>
+
+                        <CardContent>
+                            <DashboardMetricChart
+                                points={activityQuery.data.points}
+                                dataKey="totalPlayers"
+                                label={chartSeries.dashboard.totalPlayers.label}
+                                color={chartSeries.dashboard.totalPlayers.color}
+                            />
+                        </CardContent>
+                    </Card>
+
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Player Login Activity</CardTitle>
+                            <p className="mt-1 text-sm text-muted-foreground">
+                                Player login activity grouped by the selected time bucket.
+                            </p>
+                        </CardHeader>
+
+                        <CardContent>
+                            <DashboardMetricChart
+                                points={activityQuery.data.points}
+                                dataKey="playerLogins"
+                                label={chartSeries.dashboard.playerLogins.label}
+                                color={chartSeries.dashboard.playerLogins.color}
+                            />
+                        </CardContent>
+                    </Card>
+
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Matches Played</CardTitle>
+                            <p className="mt-1 text-sm text-muted-foreground">
+                                Number of matches played over time.
+                            </p>
+                        </CardHeader>
+
+                        <CardContent>
+                            <DashboardMetricChart
+                                points={activityQuery.data.points}
+                                dataKey="matchesPlayed"
+                                label={chartSeries.dashboard.matchesPlayed.label}
+                                color={chartSeries.dashboard.matchesPlayed.color}
+                            />
+                        </CardContent>
+                    </Card>
+
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Currency Flow</CardTitle>
+                            <p className="mt-1 text-sm text-muted-foreground">
+                                Currency earned and spent over the selected range.
+                            </p>
+                        </CardHeader>
+
+                        <CardContent>
+                            <DashboardCurrencyFlowChart
+                                points={activityQuery.data.points}
+                            />
+                        </CardContent>
+                    </Card>
+                </div>
+            )}
         </div>
     )
 }

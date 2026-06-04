@@ -9,6 +9,10 @@ export const chartSeries = {
             label: 'New Players',
             color: '#2563eb',
         },
+        totalPlayers: {
+            label: 'Total Players',
+            color: '#2563eb',
+        },
         playerLogins: {
             label: 'Player Logins',
             color: '#16a34a',

@@ -33,6 +33,7 @@ export type DashboardActivityPoint = {
     bucket: string
 
     newPlayers: number
+    totalPlayers: number
     playerLogins: number
     matchesPlayed: number
     itemPurchases: number
