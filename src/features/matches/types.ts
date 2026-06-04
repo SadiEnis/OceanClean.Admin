@@ -1,10 +1,9 @@
 export type AdminMatchListItem = {
     matchId: number
-    lobbyId: number | null
     matchCode: string
 
-    startedAt: string
-    endedAt: string
+    startAt: string
+    endAt: string
     durationSeconds: number
 
     totalTrashSpawned: number
@@ -12,9 +11,7 @@ export type AdminMatchListItem = {
 
     playerCount: number
     totalScore: number
-    totalEarnedCurrency: number
-    totalRevivesDone: number
-    totalTimesFainted: number
+    totalCurrencyEarned: number
 
     createdAt: string
 }

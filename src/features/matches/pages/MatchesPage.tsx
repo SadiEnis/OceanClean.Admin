@@ -266,7 +266,6 @@ export function MatchesPage() {
                                                 <div className="font-medium">{match.matchCode}</div>
                                                 <div className="text-xs text-muted-foreground">
                                                     Match ID: {match.matchId}
-                                                    {match.lobbyId ? ` · Lobby: ${match.lobbyId}` : ''}
                                                 </div>
                                             </TableCell>
 
@@ -284,15 +283,15 @@ export function MatchesPage() {
                                             </TableCell>
 
                                             <TableCell className="text-right">
-                                                {formatNumber(match.totalEarnedCurrency)}
+                                                {formatNumber(match.totalCurrencyEarned)}
                                             </TableCell>
 
                                             <TableCell>
                                                 {formatDuration(match.durationSeconds)}
                                             </TableCell>
 
-                                            <TableCell>{formatDateTime(match.startedAt)}</TableCell>
-                                            <TableCell>{formatDateTime(match.endedAt)}</TableCell>
+                                            <TableCell>{formatDateTime(match.startAt)}</TableCell>
+                                            <TableCell>{formatDateTime(match.endAt)}</TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>
